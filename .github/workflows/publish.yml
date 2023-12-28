@@ -32,7 +32,7 @@ jobs:
         with:
           version: v0.15.1
         env:
-          KO_DOCKER_REPO: docker.io/spitzis
+          KO_DOCKER_REPO: spitzis
       - env:
           auth_token: ${{ secrets.DOCKER_AUTH_TOKEN }}
         run: |

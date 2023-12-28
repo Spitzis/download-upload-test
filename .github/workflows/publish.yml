@@ -29,8 +29,15 @@ jobs:
       - uses: ko-build/setup-ko@v0.6
         with:
           version: v0.15.1
+        env:
+          KO_DOCKER_REPO: docker.io/spitzis
+      - env:
+          auth_token: ${{ secrets.docker_auth_token }}
       - run: |
+          echo "${auth_token}" | ko login --username spitzis --password-stdin
+
           ko build \
+            --tags="${{ github.ref_name }}" \
             --image-label="org.opencontainers.image.title=download-upload-test" \
             --image-label="org.opencontainers.image.build-date=$APP_BUILD_DATE" \
             --image-label="org.opencontainers.image.build-host=$APP_BUILD_HOST" \

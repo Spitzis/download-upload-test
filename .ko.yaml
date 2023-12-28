@@ -1,0 +1,11 @@
+defaultPlatforms:
+- linux/arm64
+- linux/amd64
+
+defaultBaseImage: cgr.dev/chainguard/static
+
+builds:
+- id: download-upload-test
+  main: ./
+  flags:
+  - -buildvcs=false

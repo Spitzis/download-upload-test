@@ -36,7 +36,7 @@ jobs:
       - env:
           auth_token: ${{ secrets.DOCKER_AUTH_TOKEN }}
         run: |
-            echo "${auth_token}" | ko login spitzis --username spitzis --password-stdin
+            echo "${auth_token}" | ko login docker.io --username spitzis --password-stdin
 
             ko build \
               --tags="${{ github.ref_name }}" \
@@ -45,4 +45,5 @@ jobs:
               --image-label="org.opencontainers.image.build-host=$APP_BUILD_HOST" \
               --image-label="org.opencontainers.image.vendor=spitz.is" \
               --image-label="org.opencontainers.image.authors=spitz.is" \
+              --base-import-paths \
               --sbom=none 

@@ -76,19 +76,23 @@ build_with_ko() {
     if [[ "x$DOCKER_REGISTRY" == "x" ]]; then
         export KO_DOCKER_REPO="ko.local"
     else
-        export KO_DOCKER_REPO="$DOCKER_REGISTRY/$DOCKER_PATH"
-        echo "$DOCKER_REGISTRY_PASS" | $(pwd)/bin/ko/ko login $DOCKER_REGISTRY --username $DOCKER_REGISTRY_USER --password-stdin
+        export KO_DOCKER_REPO="$DOCKER_REGISTRY"
+        echo $DOCKER_REGISTRY
+        echo $DOCKER_PATH
+        echo $DOCKER_REGISTRY_USER
+        echo "$DOCKER_REGISTRY_PASS" | $(pwd)/bin/ko/ko login docker.io --username spitzis --password-stdin
     fi;
 
 
     # {} gets replaced by piped name
     ./bin/ko/ko build \
-        --tags="$_image_tags" \
+        --tags="develop" \
         --image-label="org.opencontainers.image.title=download-upload-test" \
         --image-label="org.opencontainers.image.build-date=$APP_BUILD_DATE" \
         --image-label="org.opencontainers.image.build-host=$APP_BUILD_HOST" \
         --image-label="org.opencontainers.image.vendor=spitz.is" \
         --image-label="org.opencontainers.image.authors=spitz.is" \
+        --base-import-paths \
         --sbom=none 
 }
 

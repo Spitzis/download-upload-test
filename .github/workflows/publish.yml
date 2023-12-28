@@ -36,7 +36,7 @@ jobs:
       - env:
           auth_token: ${{ secrets.docker_auth_token }}
         run: |
-            echo "${auth_token}" | ko login https://docker.io --username spitzis --password-stdin
+            echo "${auth_token}" | ko login spitzis --username spitzis --password-stdin
 
             ko build \
               --tags="${{ github.ref_name }}" \

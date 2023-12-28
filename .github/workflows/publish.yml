@@ -34,7 +34,7 @@ jobs:
         env:
           KO_DOCKER_REPO: docker.io/spitzis
       - env:
-          auth_token: ${{ secrets.docker_auth_token }}
+          auth_token: ${{ secrets.DOCKER_AUTH_TOKEN }}
         run: |
             echo "${auth_token}" | ko login spitzis --username spitzis --password-stdin
 

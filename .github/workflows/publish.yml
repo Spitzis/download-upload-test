@@ -21,4 +21,4 @@ jobs:
       - name: build push
         env:
           KO_DOCKER_REPO: ghcr.io/spitzis/download-upload-test
-        run: ko build . --tags $GITHUB_REF_NAME
+        run: ko build . --base-import-paths --tags $GITHUB_REF_NAME

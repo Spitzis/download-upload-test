@@ -4,13 +4,15 @@ name: Publish
 on:
   push:
     tags: ['v*']
+
+jobs:    
   publish:
     name: Publish
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-   steps:
+    steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:

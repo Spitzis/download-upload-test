@@ -2,48 +2,17 @@ name: Publish
 
 on:
   push:
-    branches: ['main', 'develop']
+    branches: ['main']
 
-# https://github.com/ko-build/setup-ko
 jobs:
   publish:
     name: Publish
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
-      
-      - uses: actions/setup-go@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
         with:
-          go-version: '1.21.4'
-      
-      - uses: actions/checkout@v3
+          go-version: '1.23.x'
 
-      - uses: ko-build/setup-ko@v0.6
-        with:
-          version: v0.15.1
-        env:
-          KO_DOCKER_REPO: spitzis
-      - env:
-          auth_token: ${{ secrets.DOCKER_AUTH_TOKEN }}
-        run: |
-            echo "${auth_token}" | ko login docker.io --username spitzis --password-stdin
-
-            ko build \
-              --tags="${{ github.ref_name }}" \
-              --image-label="org.opencontainers.image.title=download-upload-test" \
-              --image-label="org.opencontainers.image.build-date=$APP_BUILD_DATE" \
-              --image-label="org.opencontainers.image.build-host=$APP_BUILD_HOST" \
-              --image-label="org.opencontainers.image.vendor=spitz.is" \
-              --image-label="org.opencontainers.image.authors=spitz.is" \
-              --base-import-paths \
-              --sbom=none 
+      - uses: ko-build/setup-ko@v0.8
+      - run: ko build
